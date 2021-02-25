@@ -1,6 +1,6 @@
 pipeline{
     agent {
-        label 'docker-amt'
+        docker { image 'ubuntu:18.04' }
     }
     stages{
         stage('Cloning Repository') {
@@ -10,6 +10,13 @@ pipeline{
                         clean = true
                     }
                 }
+            }
+        }
+        stage('Build'){
+            steps{
+                // sh 'chmod +x scripts/jenkins/build'
+                sh 'scripts/jenkins-pre-build.sh'
+                sh 'scripts/jenkins-build.sh'
             }
         }
         stage('Static Code Scan') {
